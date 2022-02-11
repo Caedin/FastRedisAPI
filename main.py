@@ -34,7 +34,7 @@ async def get(key: str):
     return redis_helper.get(key)
 
 @app.post("/{key}")
-async def post(key, request: Request, ttl: Optional[int] = 0):
+async def post(key, request: Request, ttl: Optional[int] = None):
     val = await request.body()
     redis_helper.set(key, val.decode("utf8"), ttl)
 

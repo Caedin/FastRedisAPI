@@ -27,8 +27,8 @@ def go(f):
 def get(key: str):
     return go(lambda rdb: rdb.get(key))
     
-def set(key: str, val: str):
-    return go(lambda rdb: rdb.set(key, val))
+def set(key: str, val: str, ttl: int = None):
+    return go(lambda rdb: rdb.set(key, val, ex=ttl))
 
 def delete(key: str):
     return go(lambda rdb: rdb.delete(key))
@@ -39,7 +39,7 @@ def get_json(key: str, path: str = "."):
     return go(lambda rdb: rdb.json().get(key, path))
 
 def set_json(key: str, path: str = ".", val: dict = dict()):
-    return go(lambda rdb: rdb.json().get(key, path, json.dumps(val)))
+    return go(lambda rdb: rdb.json().set(key, path, val))
 
 def pop_json_array(key: str, path: str = ".", index: int = -1):
     return go(lambda rdb: rdb.json().arrpop(key, path, index))
